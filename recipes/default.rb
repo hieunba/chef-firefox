@@ -6,5 +6,5 @@
 windows_package 'Firefox Installer' do
   source 'https://storage.googleapis.com/chef_files/Firefox.exe'
   installer_type :custom
-  options '/Q'
+  options '/S'
 end
