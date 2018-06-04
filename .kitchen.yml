@@ -1,0 +1,37 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  # You may wish to disable always updating cookbooks in CI or other testing environments.
+  # For example:
+  #   always_update_cookbooks: <%= !ENV['CI'] %>
+  always_update_cookbooks: true
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: windows-2012R2
+    driver_config:
+      box: mwrock/Windows2012R2
+      customize:
+        cpuexecutioncap: 50
+      communicator: winrm
+      username: vagrant
+      password: vagrant
+#      require_chef_omnibus: 13.6.4
+      vm_hostname: false
+    transport:
+      name: winrm
+      evaluated: false
+
+suites:
+  - name: default
+    run_list:
+      - recipe[firefox::default]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:
